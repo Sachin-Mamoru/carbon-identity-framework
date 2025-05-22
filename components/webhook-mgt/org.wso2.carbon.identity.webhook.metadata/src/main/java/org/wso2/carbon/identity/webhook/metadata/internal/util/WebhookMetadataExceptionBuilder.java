@@ -33,6 +33,7 @@ public class WebhookMetadataExceptionBuilder {
      * @return WebhookMetadataServerException
      */
     public static WebhookMetadataServerException buildServerException(String message) {
+
         return new WebhookMetadataServerException(message);
     }
 
@@ -44,6 +45,7 @@ public class WebhookMetadataExceptionBuilder {
      * @return WebhookMetadataServerException
      */
     public static WebhookMetadataServerException buildServerException(String message, Throwable cause) {
+
         return new WebhookMetadataServerException(message, cause);
     }
 
@@ -54,6 +56,7 @@ public class WebhookMetadataExceptionBuilder {
      * @return WebhookMetadataClientException
      */
     public static WebhookMetadataClientException buildClientException(String message) {
+
         return new WebhookMetadataClientException(message);
     }
 
@@ -65,6 +68,7 @@ public class WebhookMetadataExceptionBuilder {
      * @return WebhookMetadataClientException
      */
     public static WebhookMetadataClientException buildClientException(String message, Throwable cause) {
+
         return new WebhookMetadataClientException(message, cause);
     }
 }
