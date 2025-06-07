@@ -27,8 +27,6 @@ public enum ErrorMessage {
     // Continuation of client error codes can be found in the Webhook Management API layer as well.
     ERROR_CODE_WEBHOOK_NOT_FOUND("WEBHOOKMGT-60001", "Webhook not found",
             "The requested webhook could not be found in the system."),
-    ERROR_CODE_WEBHOOK_ALREADY_EXISTS("WEBHOOKMGT-60002", "Webhook endpoint already exists",
-            "A webhook with the given ID already exists in the system."),
     ERROR_CODE_WEBHOOK_ENDPOINT_ALREADY_EXISTS("WEBHOOKMGT-60003", "Webhook already exists",
             "A webhook with the given endpoint: %s already exists in the system."),
     ERROR_CODE_INVALID_REQUEST("WEBHOOKMGT-60004", "Invalid request",

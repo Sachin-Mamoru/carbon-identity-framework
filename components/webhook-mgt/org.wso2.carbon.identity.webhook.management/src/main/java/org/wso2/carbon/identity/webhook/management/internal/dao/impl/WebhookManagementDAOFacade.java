@@ -161,7 +161,7 @@ public class WebhookManagementDAOFacade implements WebhookManagementDAO {
                 if (!existingWebhook.getEndpoint().equals(webhook.getEndpoint()) &&
                         isWebhookEndpointExists(webhook.getEndpoint(), tenantId)) {
                     throw WebhookManagementExceptionHandler.handleClientException(
-                            ErrorMessage.ERROR_CODE_WEBHOOK_ALREADY_EXISTS);
+                            ErrorMessage.ERROR_CODE_WEBHOOK_ENDPOINT_ALREADY_EXISTS, webhook.getEndpoint());
                 }
 
                 // First unsubscribe the existing webhook
