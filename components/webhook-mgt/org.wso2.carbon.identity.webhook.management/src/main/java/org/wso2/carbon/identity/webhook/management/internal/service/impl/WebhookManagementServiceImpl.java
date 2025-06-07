@@ -141,7 +141,7 @@ public class WebhookManagementServiceImpl implements WebhookManagementService {
             throw WebhookManagementExceptionHandler.handleClientException(
                     ErrorMessage.ERROR_CODE_WEBHOOK_ENDPOINT_ALREADY_EXISTS, webhook.getEndpoint());
         }
-        Webhook updatedWebhook = new Webhook.Builder()
+        Webhook webhookToUpdate = new Webhook.Builder()
                 .uuid(webhookId)
                 .endpoint(webhook.getEndpoint())
                 .name(webhook.getName())
@@ -154,7 +154,7 @@ public class WebhookManagementServiceImpl implements WebhookManagementService {
                 .updatedAt(webhook.getUpdatedAt())
                 .eventsSubscribed(webhook.getEventsSubscribed())
                 .build();
-        daoFACADE.updateWebhook(updatedWebhook, tenantId);
+        daoFACADE.updateWebhook(webhookToUpdate, tenantId);
         return daoFACADE.getWebhook(webhookId, tenantId);
     }
 
