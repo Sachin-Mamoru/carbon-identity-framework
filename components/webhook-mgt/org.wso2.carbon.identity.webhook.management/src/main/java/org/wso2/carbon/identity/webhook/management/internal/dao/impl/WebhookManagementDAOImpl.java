@@ -21,17 +21,27 @@ package org.wso2.carbon.identity.webhook.management.internal.dao.impl;
 import org.wso2.carbon.database.utils.jdbc.NamedJdbcTemplate;
 import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
 import org.wso2.carbon.identity.core.util.IdentityDatabaseUtil;
+import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.webhook.management.api.exception.WebhookMgtException;
-import org.wso2.carbon.identity.webhook.management.api.exception.WebhookMgtServerException;
 import org.wso2.carbon.identity.webhook.management.api.model.Webhook;
 import org.wso2.carbon.identity.webhook.management.api.model.WebhookStatus;
 import org.wso2.carbon.identity.webhook.management.internal.constant.WebhookSQLConstants;
 import org.wso2.carbon.identity.webhook.management.internal.dao.WebhookManagementDAO;
+import org.wso2.carbon.identity.webhook.management.internal.util.WebhookManagementExceptionHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
+
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_ADD_ERROR;
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_DELETE_ERROR;
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_ENDPOINT_EXISTENCE_CHECK_ERROR;
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_EVENT_LIST_ERROR;
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_GET_ERROR;
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_LIST_ERROR;
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_STATUS_UPDATE_ERROR;
+import static org.wso2.carbon.identity.webhook.management.api.constant.ErrorMessage.ERROR_CODE_WEBHOOK_UPDATE_ERROR;
 
 /**
  * Implementation of WebhookManagementDAO.
@@ -53,7 +63,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while creating the webhook in the system.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_ADD_ERROR, e);
         }
     }
 
@@ -70,7 +81,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while updating the webhook in the system.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_UPDATE_ERROR, e, webhook.getUuid());
         }
     }
 
@@ -88,7 +100,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while deleting the webhook in the system.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_DELETE_ERROR, e, webhookId);
         }
     }
 
@@ -127,7 +140,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                         .build();
             });
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while retrieving the webhook from the system.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_GET_ERROR, e, webhookId);
         }
     }
 
@@ -147,7 +161,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                     )
             );
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while retrieving webhook events from the system.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_EVENT_LIST_ERROR, e);
         }
     }
 
@@ -161,7 +176,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                             (resultSet, rowNumber) -> mapResultSetToWebhook(resultSet),
                             statement -> statement.setInt(WebhookSQLConstants.Column.TENANT_ID, tenantId)));
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while retrieving webhooks from the system.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_LIST_ERROR, e, IdentityTenantUtil.getTenantDomain(tenantId));
         }
     }
 
@@ -179,7 +195,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                             }) != null
             );
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while checking webhook endpoint existence.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_ENDPOINT_EXISTENCE_CHECK_ERROR, e, endpoint);
         }
     }
 
@@ -313,7 +330,8 @@ public class WebhookManagementDAOImpl implements WebhookManagementDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            throw new WebhookMgtServerException("Error while updating webhook status.", e);
+            throw WebhookManagementExceptionHandler.handleServerException(
+                    ERROR_CODE_WEBHOOK_STATUS_UPDATE_ERROR, e, status);
         }
     }
 }

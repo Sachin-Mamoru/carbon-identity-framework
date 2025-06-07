@@ -78,7 +78,10 @@ public enum ErrorMessage {
     ERROR_CODE_WEBHOOK_UNSUBSCRIPTION_ERROR("WEBHOOKMGT-65015", "Webhook unsubscription error",
             "An error occurred while unsubscribing from the webhook: %s."),
     ERROR_CODE_WEBHOOK_SUBSCRIBERS_NOT_FOUND("WEBHOOKMGT-65016", "Webhook subscribers not found",
-            "No webhook subscribers found in the system for tenant: %s.");
+            "No webhook subscribers found in the system for tenant: %s."),
+    ERROR_CODE_WEBHOOK_ENDPOINT_EXISTENCE_CHECK_ERROR("WEBHOOKMGT-65017",
+            "Error occurred while checking webhook endpoint existence",
+            "An internal server error occurred while checking the existence of the webhook endpoint: %s.");
 
     private final String code;
     private final String message;
